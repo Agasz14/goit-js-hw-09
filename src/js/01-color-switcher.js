@@ -2,26 +2,28 @@ function getRandomHexColor() {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     }
 
-// funkcja do zmiany koloru ustawiona na co jedną sekundę
+// funkcja do zmiany koloru
 function changeBackgroundColor() {
-    document.body.style.backgroundColor = getRandomHexColor();  
-    setTimeout(changeBackgroundColor, 1000);
+    document.body.style.backgroundColor = getRandomHexColor();
 }
 
-const buttonStart = document.querySelectorAll('button[data-start]');
-const buttonStop = document.querySelectorAll('button[data-stop]');
+let intervalid = null;
+
+const body = document.querySelector('body');
+const buttonStart = document.querySelector('button[data-start]');
+const buttonStop = document.querySelector('button[data-stop]');
 
 // funkcjonalność przycisku Start
-buttonStart.addEventListener('click', function(changeBackgroundColor) {
-    this.disabled = true; //po kliknięciu przycisk Start zostaje wyłączon
+buttonStart.addEventListener('click', () => {
+    buttonStart.disabled = true; //po kliknięciu przycisk Start zostaje wyłączony
     buttonStop.disabled = false; // przycisk Stop zostaje uaktywoniony
-    changeBackgroundColor(); // włączenie funkcji zmiany koloru tła
+    intervalid = setInterval(changeBackgroundColor, 1000); // włączenie funkcji zmiany koloru tła
 })
 
 // funkcjonalność przycisku Stop
-buttonStop.addEventListener('click', function() {
-    this.disabled = true; //po kliknięciu przycisk Stop zostaje wyłączony
+buttonStop.addEventListener('click', function () {
+    buttonStop.disabled = true; //po kliknięciu przycisk Stop zostaje wyłączony
     buttonStart.disabled = false; // przycisk Start zostaje uaktywoniony
-    return (changeBackgroundColor).reject ; // wyłączenie funkcji na zmianę koloru
+    clearInterval(intervalid) ; // wyłączenie funkcji na zmianę koloru
 })
 
